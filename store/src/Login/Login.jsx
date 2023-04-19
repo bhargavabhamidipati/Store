@@ -4,6 +4,7 @@ import { Box } from "@mui/system";
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import { useNavigate } from "react-router-dom";
+import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
 
 export default function Login(){
     const navigate = useNavigate();
@@ -16,16 +17,30 @@ export default function Login(){
         borderRadius : 4
     }
 
-    const authorize = () => {}
+    const authorize = () => {
+        const auth = getAuth();
+        signInWithEmailAndPassword(auth, email, password)
+        .then((userCredential) => {
+        // Signed in
+        const user = userCredential.user;
+        console.log("signed in successfully");
+        // ...
+        })
+        .catch((error) => {
+        const errorCode = error.code;
+        const errorMessage = error.message;
+        console.log("login failed")
+        });
+    }
 
     return (
         <div className="homecontainer" style={{alignItems:"center",padding: "10%"}}>
-            <div style={{color:"white"}}>
+            <div style={{}}>
                 <h1>Log in</h1>
             </div>
             <Box style={{
                 width: "400px",
-                backgroundColor: "rgb(0,0,111)",
+                backgroundColor: "white",
                 borderRadius: 4,
                 padding: 10,
             }}>
@@ -56,7 +71,7 @@ export default function Login(){
             </Box>
             <Button variant = "contained"
             style = {{width:"100px",align:"center", margin:"10px"}}
-            onClick = {() => {console.log('email',email);console.log('password',password)}}>
+            onClick = {authorize}>
 
                 Login
             </Button>
