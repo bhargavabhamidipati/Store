@@ -26,8 +26,8 @@ public class ProductService {
         return repository.findAll();
     }
 
-    public Product getProductById(Long id){
-        return repository.findProductById(id);
+    public Product getProductById(long id){
+        return repository.findById(id);
     }
 
     public String deleteProduct(Long id){

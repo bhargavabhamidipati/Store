@@ -8,8 +8,8 @@ import org.springframework.stereotype.Repository;
 @Repository
 public interface CartRepository  extends MongoRepository<Cart, String> {
 
-    @Query("{id:'?0'}")
-    Cart findCartById(Long id);
 
+    Cart findById(Long id);
 
+    //String deleteById(Long cartId);
 }

@@ -11,7 +11,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
+
 
 @Service
 @AllArgsConstructor
@@ -26,42 +26,42 @@ public class CartService {
     private ProductRepository productRepository;
 
     public Cart getCartById(Long cartId) {
-        return cartRepository.findCartById(cartId);
+        return cartRepository.findById(cartId);
     }
 
-    /**public List<Cart> getAllCarts() {
-        return cartRepository.findAll();
-    }**/
 
-    public Cart createCart(Long id) {
+
+    public Cart createCart(Long cartId) {
         Cart cart = new Cart();
-        cart.setId(id);
+        cart.setId(cartId);
         return cartRepository.save(cart);
     }
 
-    public CartItem addCartItem(Long cartId, Product product, int quantity) {
-        Cart cart = getCartById(cartId);
+    public CartItem addCartItem(Long cartId, Long productId, int quantity) {
+        Cart cart = cartRepository.findById(cartId);
         CartItem cartItem = new CartItem();
-        cartItem.setProduct(product);
+        cartItem.setId(cartId);
         cartItem.setQuantity(quantity);
-        cartItem.setCart(cart);
+        cartItem.setProductId(productId);
+        return cartItemRepository.save(cartItem);
+    }
+    public CartItem UpdateCart(CartItem cartItem){
         return cartItemRepository.save(cartItem);
     }
 
-    public void removeCartItem(Long cartItemId) {
-        cartItemRepository.deleteById(cartItemId);
+    public CartItem getCartItemToUpdate(Long cartId, Long productId){
+        return cartItemRepository.findByCartIdAndProductId(cartId,productId);
     }
 
-    public List<CartItem> getAllCartItems() {
-        return cartItemRepository.findAll();
+    public void removeCartItem(Long cartId, Long productId) {
+        cartItemRepository.deleteByCartIdAndProductId(cartId,productId);
     }
 
-    public Set<CartItem> getCartItemsByCartId(Long cartId) {
-        Cart cart = cartRepository.findCartById(cartId);
-        return cart.getCartItems();
+    public List<CartItem> getAllCartItems(Long cartId) {
+        return cartItemRepository.findById(cartId);
     }
 
     public void clearCart(Long cartId) {
-        cartRepository.deleteById(cartId);
+        cartItemRepository.deleteById(cartId);
     }
 }

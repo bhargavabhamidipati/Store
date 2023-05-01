@@ -16,6 +16,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Collection;
+import java.util.List;
 
 @RestController
 @AllArgsConstructor
@@ -27,7 +28,7 @@ public class ProductController {
 
     @GetMapping("/products")
     @Operation(summary = "Gets All Products")
-    public Collection<Product> getProducts() {
+    public List<Product> getProducts() {
         log.info("GET: All Products");
         return productService.getAllProducts();
     }
@@ -38,8 +39,9 @@ public class ProductController {
             @ApiResponse(responseCode = "200", description = "OK", content = {@Content(mediaType = "application/json",
                     schema = @Schema(implementation = Product.class))}),
             @ApiResponse(responseCode = "404", description = "Product not found")})
-    public Product getProducts(@Parameter(description = "Id of product to be searched") @PathVariable("id") long id) {
+    public Product getProduct(@Parameter(description = "Id of product to be searched") @PathVariable("id") long id) {
         log.info("GET: Product {}", id);
+        System.out.println(productService.getProductById(id));
         return productService.getProductById(id);
     }
 

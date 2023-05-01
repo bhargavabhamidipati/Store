@@ -10,8 +10,8 @@ import java.util.List;
 @Repository
 public interface ProductRepository extends MongoRepository<Product, String> {
 
-    @Query("{id:'?0'}")
-    Product findProductById(Long id);
+
+    Product findById(long id);
 
     @Query("{name:'?0'}")
     Product findProductByName(String name);
@@ -21,5 +21,5 @@ public interface ProductRepository extends MongoRepository<Product, String> {
 
     public long count();
 
-    String deleteById(Long id);
+    String deleteById(long id);
 }

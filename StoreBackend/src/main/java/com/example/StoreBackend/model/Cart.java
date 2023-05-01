@@ -1,36 +1,27 @@
 package com.example.StoreBackend.model;
 
-import jakarta.persistence.CascadeType;
-import jakarta.persistence.OneToMany;
+import jakarta.persistence.Id;
+import jakarta.persistence.ManyToOne;
+
 import lombok.Data;
 import org.springframework.data.mongodb.core.mapping.Document;
-import java.util.HashSet;
-import java.util.Set;
+
+import java.time.LocalDateTime;
+import java.util.ArrayList;
+import java.util.List;
+
 
 @Data
 @Document("cart")
 public class Cart {
 
+    @Id
     private Long id;
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL, orphanRemoval = true)
-    private Set<CartItem> cartItems = new HashSet<>();
 
-    public void addCartItem(CartItem cartItem){
-        cartItems.add(cartItem);
-        cartItem.setCart(this);
-    }
+    private LocalDateTime createdDate;
 
-    public void removecartItem(CartItem cartItem){
-        cartItems.remove(cartItem);
-        cartItem.setCart(null);
-    }
 
-    public void clearcartItems(){
-        for(CartItem cartItem : cartItems){
-            cartItem.setCart(null);
-        }
-        cartItems.clear();
-    }
+    private List<CartItem> list = new ArrayList<>();
 
 
 }
